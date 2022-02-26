@@ -3,7 +3,14 @@ const { User } = require('../model');
 
 module.exports = {
     createUser: async (req, res) => {
-        const { username, email, role, powerLevel } = req.body;
+        const { username,
+            email,
+            role,
+            powerLevel,
+            hobby,
+            firstFavorite,
+            secondFavorite,
+         } = req.body;
         if (!isEmail(email)) {
             return res.status(401).json({ error: 'Invalid email' });
         }
@@ -13,6 +20,11 @@ module.exports = {
                 email,
                 role,
                 powerLevel,
+                hobbies: [hobby],
+                twoFavoriteCryptos: {
+                    firstFavorite,
+                    secondFavorite,
+                }
             });
             res.json(newUser);
         } catch (e) {
@@ -32,6 +44,51 @@ module.exports = {
         try {
             const user = await User.findById(userId, '-role -powerLevel');
             res.json(user);
+        } catch (e) {
+            res.json(e);
+        }
+    },
+    updateUserById: async (req, res) => {
+        const { userId } = req.params;
+        try {
+            const updateUser = await User.findByIdAndUpdate(
+                userId,
+                {...req.body},
+                {
+                    new: true,
+                    runValidators: true,
+
+                }
+                );
+            res.json(updateUser);
+        } catch (e) {
+            res.json(e);
+        }
+    },
+    deleteUserbyId: async (req, res) => {
+        const { userId } = req.params;
+        try {
+            const deletedUser = await User.findByIdAndDelete(userId);
+            res.json(deletedUser)
+        } catch (e) {
+            res.json(e);
+        }
+    },
+    addHobbyToUserById: async (req, res) => {
+        const { userId } = req.params;
+        const { hobby } = req.body;
+        try {
+            const updatedUser = await User.findByIdAndUpdate(userId,
+                {
+                    $push: {
+                        hobbies: hobby,
+                    }
+                },
+                {
+                    new: true,
+                }
+            );
+            res.json(updatedUser)
         } catch (e) {
             res.json(e);
         }

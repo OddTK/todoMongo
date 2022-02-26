@@ -41,6 +41,19 @@ const userSchema = new Schema({
         max: 9000,
         default: 1,
     },
+    hobbies: [String],
+    twoFavoriteCryptos: {
+        firstFavorite: {
+            type: String,
+            uppercase: true,
+            trim: true,
+        },
+        secondFavorite: {
+            type: String,
+            uppercase: true,
+            trim: true,
+        }
+    }
 });
 
 const User = model('User', userSchema);
