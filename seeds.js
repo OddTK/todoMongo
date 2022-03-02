@@ -2,13 +2,15 @@ const mongoose = require('mongoose');
 const { faker } = require('@faker-js/faker');
 const {
     User,
-    Todo
+    Todo,
+    Blog,
 } = require('./model');
 
 const seedDb = async () => {
     await mongoose.connect('mongodb://localhost:27017/todoMongoDB');
     await User.deleteMany({});
     await Todo.deleteMany({});
+    await Blog.deleteMany({});
 
     const usersToCreate = [
         {
@@ -83,8 +85,33 @@ const seedDb = async () => {
     ];
 
     const todos = await Todo.insertMany(todosToCreate);
-    console.log(todos);
-    
+
+    const blogsToCreate = [
+        {
+            description: faker.lorem.paragraph(),
+            userId: users[Math.floor(Math.random() * users.length)]._id,
+        },
+        {
+            description: faker.lorem.paragraph(),
+            userId: users[Math.floor(Math.random() * users.length)]._id,
+        },
+        {
+            description: faker.lorem.paragraph(),
+            userId: users[Math.floor(Math.random() * users.length)]._id,
+        },
+        {
+            description: faker.lorem.paragraph(),
+            userId: users[Math.floor(Math.random() * users.length)]._id,
+        },
+        {
+            description: faker.lorem.paragraph(),
+            userId: users[Math.floor(Math.random() * users.length)]._id,
+        },
+    ];
+
+    const blogs = await Blog.insertMany(blogsToCreate);
+    console.log(blogs);
+
     process.exit(0);
 };
 
