@@ -10,7 +10,7 @@ module.exports = {
             hobby,
             firstFavorite,
             secondFavorite,
-         } = req.body;
+        } = req.body;
         if (!isEmail(email)) {
             return res.status(401).json({ error: 'Invalid email' });
         }
