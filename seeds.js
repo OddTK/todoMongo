@@ -185,10 +185,3 @@ const seedDb = async () => {
 };
 
 seedDb();
-/*
-	Create a Blog model
-	a blog model will belong to a user
-  a blog model will have a description which is a text
-	Seed your database with at least 5 blogs that all belong to a user
-  Create an API GET endpoint that gets all of the blogs from the database with the userId populated
-* */

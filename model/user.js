@@ -54,6 +54,10 @@ const userSchema = new Schema({
     }
 });
 
+userSchema.virtual('fullName').get(function() {
+    return `${this.firstName} ${this.lastName}`;
+});
+
     // called Model methods
 userSchema.statics.findByRole = async function(role) {
     return await this.find({ role });
